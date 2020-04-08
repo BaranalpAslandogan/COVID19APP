@@ -1,5 +1,5 @@
-import 'package:covid19app/app/servis/api_key.dart';
 import 'package:flutter/foundation.dart';
+import 'package:covid19app/app/servis/api_key.dart';
 
 enum TumVakalar{
   vakalar,
