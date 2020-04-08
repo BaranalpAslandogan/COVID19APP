@@ -39,5 +39,5 @@ class API{
     TumVakalar.iyilesenler: 'recovered',
   };
 
-
+  //Deneme
 }
