@@ -54,6 +54,27 @@ class APIServis{
     throw cevap;
   }
 
+  Future<int> UlkeyeGoreVeriGetir({@required String accessToken, @required TumVakalar tumVakalar, @required Ulke ulke}) async{
+    final ulkeUri = api.ulkeVakaUri(tumVakalar, ulke);
+    final veriCek = await http.get(
+      ulkeUri.toString(),
+      headers: {'Authorization':'Bearer $accessToken'},
+    );
+    final List<dynamic> veri = json.decode(veriCek.body);
+    if(veri.isNotEmpty){
+      final Map<String, dynamic> tumVakaData = veri[0];
+      final String cevapJsonKey = _cevapJsonKey[tumVakalar]; 
+      final int sonuc = tumVakaData[cevapJsonKey];
+
+      if(sonuc!=null){
+        return sonuc;
+      }
+      else{
+        print('Hata: $ulkeUri , Sonuç: ${veriCek.statusCode} ${veriCek.body}');
+      }
+    } 
+  }
+
   static Map<TumVakalar, String> _cevapJsonKey = {
     TumVakalar.vakalar: 'cases',
     TumVakalar.olumler: 'data',

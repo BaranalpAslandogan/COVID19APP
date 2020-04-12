@@ -2,6 +2,7 @@ import 'package:covid19app/app/repo/data.dart';
 import 'package:covid19app/app/repo/tum_vaka_veriler.dart';
 import 'package:covid19app/app/servis/api.dart';
 import 'package:covid19app/app/servis/api_servis.dart';
+import 'package:covid19app/ulkeverileri.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,24 +40,31 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   //TumVakaVerileri _dataRepo;
   String _token = '';
-  DateTime guncellemeZamani;
-  int deger;
   var _olum,_vaka,_iyilesen;
+  var _turkiyeVaka,_turkiyeOlum,_turkiyeIyilesen;
 
   Future<void> _veriGetir() async {
     final apiServis = APIServis(api:API.sandbox());
     final token= await apiServis.accesTokenGetir();
+
     final vakalar = await apiServis.TumVakaDataGetir(accessToken: token, tumVakalar: TumVakalar.vakalar);
     final olumler = await apiServis.TumVakaDataGetir(accessToken: token, tumVakalar: TumVakalar.olumler);
     final iyilesenler = await apiServis.TumVakaDataGetir(accessToken: token, tumVakalar: TumVakalar.iyilesenler);
+
+    final turkiyeVaka = await apiServis.UlkeyeGoreVeriGetir(accessToken: token, tumVakalar: TumVakalar.vakalar, ulke: Ulke.turkiye);
+    final turkiyeOlum = await apiServis.UlkeyeGoreVeriGetir(accessToken: token, tumVakalar: TumVakalar.olumler, ulke: Ulke.turkiye);
+    final turkiyeIyilesen = await apiServis.UlkeyeGoreVeriGetir(accessToken: token, tumVakalar: TumVakalar.iyilesenler, ulke: Ulke.turkiye);
     
     setState(() {
       _token=token;
       _vaka = vakalar;
       _olum = olumler;
       _iyilesen = iyilesenler;
-    });
 
+      _turkiyeVaka=turkiyeVaka;
+      _turkiyeOlum=turkiyeOlum;
+      _turkiyeIyilesen=turkiyeIyilesen;
+    });
 
     /*final dataRepo = Provider.of<DataRepo>(context);
     final vakaVeri = await dataRepo.tumVakalarVeriGetir();
@@ -114,6 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.teal,
               onPressed: _veriGetir,
             ),
+
+            FlatButton(onPressed:(){
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UlkeBazliVeriCek()),
+            );
+            } ,
+            child: Text("Ülke bazında Veri Getir!")),
           ],
         ),
       ),

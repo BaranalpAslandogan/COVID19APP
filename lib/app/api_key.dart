@@ -1,3 +1,3 @@
 class APIKey{
-  static String covid19key="Rlp0Z1BseVFkbTE3U254UlU4Zk1hYkpYMnlJYTo3M3pwWGhVTE12bk5tUVhCNFc4R1VGTFFKbGth";
+  static String covid19key="SWZIUml3MVRCamN5YTVaXzV2VTA2T0Y0UnFVYTpYN2hNZXNJZFlYRThBaVRiN256dllvU1NHZ1lh";
 }
